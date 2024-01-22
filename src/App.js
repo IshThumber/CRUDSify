@@ -1,4 +1,3 @@
-// App.js
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '@radix-ui/themes/styles.css';
