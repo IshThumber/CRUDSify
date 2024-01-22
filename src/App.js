@@ -47,7 +47,8 @@ const App = () => {
       <div className='flex flex-row gap-5'>
         <button className='px-5 py-2 bg-amber-300' onClick={() => {
           console.log('clicked');
-        }}>Add New Entry</button>
+        }}>
+          Add New Entry</button>
         <button className='px-5 py-2 bg-amber-300'>2</button>
 
         <NewEntryForm setFormData={setFormData} formData={formData} />
