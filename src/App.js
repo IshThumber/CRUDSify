@@ -226,11 +226,9 @@ const App = () => {
 
 
       <div >
-        <Button variant='ghost' className="px-4 py-2 font-bold text-white bg-green-200 rounded-full hover:bg-green-700">
+        <Button variant='ghost' className="px-4 py-2 font-bold text-black bg-green-200 rounded-full hover:bg-green-700">
           Send Mail
         </Button>
-        {/* <button className='bg-green-200 px-5 py-2' onClick={handleMail}>Send Mail</button> */}
-        {/* <button className='bg-green-200 px-5 py-2' onClick={handleMail}></button> */}
       </div>
     </div>
   );
