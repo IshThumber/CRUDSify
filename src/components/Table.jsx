@@ -103,24 +103,24 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
         <table className="w-full">
           <thead>
             <tr>
-              <th className="border px-4 py-2">
+              <th className="px-4 py-2">
                 <input
                   type="checkbox"
                   onChange={handleSelectAllChange}
                   checked={selectAll}
                 />
               </th>
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Phone Number</th>
-              <th className="border px-4 py-2">Email</th>
-              <th className="border px-4 py-2">Hobbies</th>
-              <th className="border px-4 py-2" colSpan={2}>Actions</th>
+              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Phone Number</th>
+              <th className="px-4 py-2">Email</th>
+              <th className="px-4 py-2">Hobbies</th>
+              <th className="px-4 py-2" colSpan={2}>Actions</th>
             </tr>
           </thead>
           {data.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan="7" className="border text-center p-5">
+                <td colSpan="7" className="text-center p-5">
                   No data available
                 </td>
               </tr>
@@ -129,26 +129,26 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
             <tbody>
               {data.map((item) => (
                 <tr key={item._id}>
-                  <td className="border px-4 py-2">
+                  <td className="px-4 py-2">
                     <input
                       type="checkbox"
                       onChange={(e) => handleCheckboxChange(e, item._id)}
                       checked={selectedCheckboxes.includes(item._id)}
                     />
                   </td>
-                  <td className="border px-4 py-2">{item.name}</td>
-                  <td className="border px-4 py-2">{item.phoneNumber}</td>
-                  <td className="border px-4 py-2">{item.email}</td>
-                  <td className="border px-4 py-2">{item.hobbies}</td>
-                  <td className="border px-4 py-2">
+                  <td className="px-4 py-2">{item.name}</td>
+                  <td className="px-4 py-2">{item.phoneNumber}</td>
+                  <td className="px-4 py-2">{item.email}</td>
+                  <td className="px-4 py-2">{item.hobbies}</td>
+                  <td className="px-4 py-2">
                     <button
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
-                      onClick={(e) => handleDelete(e, item._id)}
+                      onClick={() => handleDelete(item._id)}
                     >
                       Delete
                     </button>
                   </td>
-                  <td className="border px-4 py-2">
+                  <td className="px-4 py-2">
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
                       onClick={() => handleEdit(item)}

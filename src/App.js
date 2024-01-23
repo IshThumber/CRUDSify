@@ -5,8 +5,8 @@ import NewEntryForm from './components/NewEntryForm';
 import { TableSelection } from './components/Table';
 
 // const hostURL = process.env.REACT_APP_HOST_URL
-// const hostURL = "http://localhost:5000"
-const hostURL = "https://the-it-backend.onrender.com"
+const hostURL = "http://localhost:5000"
+// const hostURL = "https://the-it-backend.onrender.com"
 const App = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -133,7 +133,7 @@ const App = () => {
 
 
   const handleDelete = (id) => {
-    axios.post(`${hostURL}/delete/data/${id}`, {
+    axios.post(`${hostURL}/api/delete/data/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -170,29 +170,36 @@ const App = () => {
     setIsUpdateFormOpen(true);
     setUpdateFormData({ ...selectedItem });
 
-    axios.post(`${hostURL}/update/data/${itemId}`, updateFormData)
+    axios.post(`${hostURL}/api/update/data/${itemId}`, updateFormData)
       .then(response => setFormData(response.data))
       .catch(error => console.error(error));
     setIsUpdateFormOpen(false);
   };
 
-  const handleMail = (e) => {
+  const handleMail = async () => {
     let ids = selectedCheckboxes;
     if (ids.length === 0)
-      alert('Please select atleast one checkbox');
+      alert('Please select at least one checkbox');
     for (let i = 0; i < ids.length; i++) {
-      axios.post(`${hostURL}sendmail/${ids[i]}`)
-        .then(response => console.log(response))
-        .catch(error => console.error(error));
+      try {
+        await axios.post(`${hostURL}/api/sendmail/${ids[i]}`)
+          .then(response => console.log(response))
+          .catch(error => console.error(error));
+      } catch (error) {
+        console.error(error);
+      }
       console.log(ids[i]);
-
     }
-
-    console.log("Mail sent");
+    // console.log("Mail sent");
   }
 
   return (
     <div className='bg-white text-black flex flex-col gap-14 w-4/5 m-auto'>
+
+      <div className='w-full bg-green-50 p-5 font-extrabold text-4xl'>
+        Task for "TheITStudio"
+      </div>
+
       <div>
         <h1 className='text-3xl font-bold'>Form</h1>
         <NewEntryForm setFormData={setFormData} formData={formData} handleFormSubmit={handleFormSubmit} open={open} setOpen={setOpen} handleFormChange={handleFormChange} formErrors={formErrors} isNewOpen={isNewOpen} onNewOpen={onNewOpen} onNewClose={onNewClose} />
