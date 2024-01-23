@@ -125,7 +125,6 @@ const App = () => {
   const handleCheckboxChange = (e, id) => {
     if (e.target.checked) {
       setSelectedCheckboxes([...selectedCheckboxes, id]);
-      console.log('Selected checkbox IDs:', [...selectedCheckboxes, id]);
     } else {
       setSelectedCheckboxes(selectedCheckboxes.filter((checkboxId) => checkboxId !== id));
     }
@@ -136,7 +135,6 @@ const App = () => {
     if (e.target.checked) {
       const allIds = data.map((item) => item._id);
       setSelectedCheckboxes(allIds);
-      console.log('Selected checkbox IDs:', allIds);
     } else {
       setSelectedCheckboxes([]);
     }
@@ -165,12 +163,14 @@ const App = () => {
             'Content-Type': 'application/json'
           }
         })
-          .then(response => console.log(response))
+          .then(response => response)
           .catch(error => console.error(error));
+
+
+        alert("Mail sent successfully")
       } catch (error) {
         console.error(error);
       }
-      console.log(ids[i]);
     }
   };
 

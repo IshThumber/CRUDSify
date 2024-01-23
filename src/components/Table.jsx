@@ -34,7 +34,6 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
   const handleUpdateSubmit = (e) => {
     e.preventDefault();
     let body = { name: editedItem.name, phoneNumber: editedItem.phoneNumber, email: editedItem.email, hobbies: editedItem.hobbies }
-    console.log(body);
     handleUpdate(editedItem._id, body);
 
     onEditClose();
