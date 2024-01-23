@@ -1,52 +1,93 @@
 import React from 'react'
-// import PropTypes from 'prop-types';
-
-// import {  } from "@mantine/core"
+import { FormControl, Input } from '@chakra-ui/react'
 import {
-  Button,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Input,
-} from "@material-tailwind/react";
-const NewEntryForm = (props) => {
-  const [open, setOpen] = React.useState(false);
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button
+} from '@chakra-ui/react'
 
-  console.log(props.formData);
-  const handleOpen = () => setOpen(!open);
+
+const NewEntryForm = ({ handleFormSubmit, handleFormChange, formErrors, isOpen, onOpen, onClose }) => {
 
   return (
     <>
-      <div className='font-sans'>
+      <div className='font-sans text-black'>
 
-        <Button onClick={handleOpen} variant="gradient">
-          Open Dialog
-        </Button>
-        <Dialog open={open} handler={handleOpen}>
-          <DialogHeader>New Entry</DialogHeader>
-          <DialogBody>
-            <div className='flex flex-col bg-pink-100 p-4 gap-9'>
-              <Input variant="outlined" label="Name" placeholder="Name" />
-              <Input variant="outlined" label="Phone Number" placeholder="Phone Number" />
-              <Input variant="outlined" label="Email" placeholder="Email" />
-              <Input variant="outlined" label="Hobbies" placeholder="Hobbies" />
-            </div>
-          </DialogBody>
-          <DialogFooter>
-            <Button
-              variant="text"
-              color="red"
-              onClick={handleOpen}
-              className="mr-1"
-            >
-              <span>Cancel</span>
-            </Button>
-            <Button variant="gradient" color="green" onClick={handleOpen}>
-              <span>Confirm</span>
-            </Button>
-          </DialogFooter>
-        </Dialog>
+
+        <Button onClick={onOpen} bg={"blue"}>Open Modal</Button>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>New Entry Form</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <div className='flex flex-col p-4 gap-9'>
+                <FormControl>
+                  <Input
+                    isInvalid={formErrors.name}
+                    name="name"
+                    type="text"
+                    pr="4.5rem"
+                    variant="outline"
+                    placeholder="Enter Name"
+                    onChange={handleFormChange}
+                  />
+                  {formErrors.name && <span className='text-red-500'>{formErrors.name}</span>}
+                </FormControl>
+                <FormControl>
+                  <Input
+                    isInvalid={formErrors.phoneNumber}
+                    name="phoneNumber"
+                    type="number"
+                    pr="4.5rem"
+                    variant="outline"
+                    placeholder="Enter Phone Number"
+                    onChange={handleFormChange}
+                  />
+                  {formErrors.phoneNumber && <span className='text-red-500'>{formErrors.phoneNumber}</span>}
+                </FormControl>
+                <FormControl>
+                  <Input
+                    isInvalid={formErrors.email}
+                    name="email"
+                    type="text"
+                    pr="4.5rem"
+                    variant="outline"
+                    placeholder="Enter Email"
+                    onChange={handleFormChange}
+                  />
+                  {formErrors.email && <span className='text-red-500'>{formErrors.email}</span>}
+                </FormControl>
+                <FormControl>
+                  <Input
+                    isInvalid={formErrors.hobbies}
+                    name="hobbies"
+                    type="text"
+                    pr="4.5rem"
+                    variant="outline"
+                    placeholder="Enter Hobbies"
+                    onChange={handleFormChange}
+                  />
+                  {formErrors.hobbies && <span className='text-red-500'>{formErrors.hobbies}</span>}
+                </FormControl>
+              </div>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='blue' mr={3} onClick={onClose}>
+                Close
+              </Button>
+              <Button variant='ghost' className="px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700" onClick={handleFormSubmit}>Submit</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
       </div>
 
     </>
