@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useDisclosure } from '@chakra-ui/react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import axios from 'axios';
 import NewEntryForm from './components/NewEntryForm';
 import { TableSelection } from './components/Table';
 
-const hostURL = process.env.REACT_APP_HOST_URL
+// const hostURL = process.env.REACT_APP_HOST_URL
+const hostURL = "http://localhost:5000"
 const App = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -19,9 +20,12 @@ const App = () => {
   const [selectAll, setSelectAll] = useState(false);
 
   const [formErrors, setFormErrors] = useState({});
-  // const [flag, setFlag] = useState(true);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [updateData, setUpdateData] = useState(formData);
+  const { isOpen: isNewOpen, onOpen: onNewOpen, onClose: onNewClose } = useDisclosure();
+  const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
+
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
+  const [updateFormData, setUpdateFormData] = useState({});
+
 
   useEffect(() => {
     axios.get(`${hostURL}/api/alldata`)
@@ -116,7 +120,7 @@ const App = () => {
     else {
       alert("Please fill the form")
     }
-    onClose();
+    onNewClose();
 
     setFormData({
       name: '',
@@ -127,9 +131,7 @@ const App = () => {
   };
 
 
-  console.log(hostURL);
   const handleDelete = (id) => {
-    // Delete data on button click
     axios.post(`${hostURL}/delete/data/${id}`, {
       headers: {
         'Content-Type': 'application/json'
@@ -163,27 +165,42 @@ const App = () => {
 
   const handleUpdate = (itemId) => {
     const selectedItem = data.find(item => item._id === itemId);
+    setIsUpdateFormOpen(true);
+    setUpdateFormData({ ...selectedItem });
 
-    const newName = prompt('Enter new name:', selectedItem.name);
-    const newPhoneNumber = prompt('Enter new phone number:', selectedItem.phoneNumber);
-    const newEmail = prompt('Enter new email:', selectedItem.email);
-    const newHobbies = prompt('Enter new hobbies:', selectedItem.hobbies);
-
-    selectedItem.name = newName;
-    selectedItem.phoneNumber = newPhoneNumber;
-    selectedItem.email = newEmail;
-    selectedItem.hobbies = newHobbies;
-
-    axios.post(`${hostURL}/update/data/${itemId}`, selectedItem)
-      .then(response => setUpdateData(response.data))
+    axios.post(`${hostURL}/update/data/${itemId}`, updateFormData)
+      .then(response => setFormData(response.data))
       .catch(error => console.error(error));
-  }
+    setIsUpdateFormOpen(false);
+  };
+
+  // const handleUpdateFormChange = (e) => {
+  //   setUpdateFormData({ ...updateFormData, [e.target.name]: e.target.value });
+  // };
+
+
+
+  // const handleUpdate = (itemId) => {
+  //   const selectedItem = data.find(item => item._id === itemId);
+
+  //   const newName = prompt('Enter new name:', selectedItem.name);
+  //   const newPhoneNumber = prompt('Enter new phone number:', selectedItem.phoneNumber);
+  //   const newEmail = prompt('Enter new email:', selectedItem.email);
+  //   const newHobbies = prompt('Enter new hobbies:', selectedItem.hobbies);
+
+  //   selectedItem.name = newName;
+  //   selectedItem.phoneNumber = newPhoneNumber;
+  //   selectedItem.email = newEmail;
+  //   selectedItem.hobbies = newHobbies;
+
+  //   axios.post(`${hostURL}/update/data/${itemId}`, selectedItem)
+  //     .then(response => setFormData(response.data))
+  //     .catch(error => console.error(error));
+  // }
 
 
   const handleMail = (e) => {
-
     let ids = selectedCheckboxes;
-
     for (let i = 0; i < ids.length; i++) {
       axios.post(`${hostURL}sendmail/${ids[i]}`)
         .then(response => console.log(response))
@@ -196,21 +213,24 @@ const App = () => {
   }
 
   return (
-    <div className='bg-white text-black'>
+    <div className='bg-white text-black flex flex-col gap-14 w-4/5 m-auto'>
       <div>
-        <h1 className='text-3xl'>Form</h1>
-        <NewEntryForm setFormData={setFormData} formData={formData} handleFormSubmit={handleFormSubmit} open={open} setOpen={setOpen} handleFormChange={handleFormChange} formErrors={formErrors} isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+        <h1 className='text-3xl font-bold'>Form</h1>
+        <NewEntryForm setFormData={setFormData} formData={formData} handleFormSubmit={handleFormSubmit} open={open} setOpen={setOpen} handleFormChange={handleFormChange} formErrors={formErrors} isNewOpen={isNewOpen} onNewOpen={onNewOpen} onNewClose={onNewClose} />
       </div>
 
       <div>
-        <h1>Table Selection</h1>
-        <TableSelection data={data} handleDelete={handleDelete} handleUpdate={handleUpdate} handleCheckboxChange={handleCheckboxChange} handleSelectAllChange={handleSelectAllChange} selectAll={selectAll} selectedCheckboxes={selectedCheckboxes} />
+        <h1 className="text-2xl font-bold">Table Selection</h1>
+        <TableSelection data={data} handleDelete={handleDelete} handleUpdate={handleUpdate} handleCheckboxChange={handleCheckboxChange} handleSelectAllChange={handleSelectAllChange} selectAll={selectAll} selectedCheckboxes={selectedCheckboxes} isEditOpen={isEditOpen} onEditOpen={onEditOpen} onEditClose={onEditClose} />
       </div>
 
 
       <div >
-
-        <button className='bg-green-200 px-5 py-2' onClick={handleMail}>Send Mail</button>
+        <Button variant='ghost' className="px-4 py-2 font-bold text-white bg-green-200 rounded-full hover:bg-green-700">
+          Send Mail
+        </Button>
+        {/* <button className='bg-green-200 px-5 py-2' onClick={handleMail}>Send Mail</button> */}
+        {/* <button className='bg-green-200 px-5 py-2' onClick={handleMail}></button> */}
       </div>
     </div>
   );

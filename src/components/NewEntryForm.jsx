@@ -12,16 +12,15 @@ import {
 } from '@chakra-ui/react'
 
 
-const NewEntryForm = ({ handleFormSubmit, handleFormChange, formErrors, isOpen, onOpen, onClose }) => {
+const NewEntryForm = ({ handleFormSubmit, handleFormChange, formErrors, isNewOpen, onNewOpen, onNewClose }) => {
 
   return (
     <>
       <div className='font-sans text-black'>
 
+        <Button onClick={onNewOpen} bg={"blue"}>Open Modal</Button>
 
-        <Button onClick={onOpen} bg={"blue"}>Open Modal</Button>
-
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isNewOpen} onClose={onNewClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>New Entry Form</ModalHeader>
@@ -80,7 +79,7 @@ const NewEntryForm = ({ handleFormSubmit, handleFormChange, formErrors, isOpen, 
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={onClose}>
+              <Button colorScheme='blue' mr={3} onClick={onNewClose}>
                 Close
               </Button>
               <Button variant='ghost' className="px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700" onClick={handleFormSubmit}>Submit</Button>
