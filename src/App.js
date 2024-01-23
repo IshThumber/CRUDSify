@@ -5,7 +5,8 @@ import NewEntryForm from './components/NewEntryForm';
 import { TableSelection } from './components/Table';
 
 // const hostURL = process.env.REACT_APP_HOST_URL
-const hostURL = "http://localhost:5000"
+// const hostURL = "http://localhost:5000"
+const hostURL = "https://the-it-backend.onrender.com/"
 const App = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -173,31 +174,6 @@ const App = () => {
       .catch(error => console.error(error));
     setIsUpdateFormOpen(false);
   };
-
-  // const handleUpdateFormChange = (e) => {
-  //   setUpdateFormData({ ...updateFormData, [e.target.name]: e.target.value });
-  // };
-
-
-
-  // const handleUpdate = (itemId) => {
-  //   const selectedItem = data.find(item => item._id === itemId);
-
-  //   const newName = prompt('Enter new name:', selectedItem.name);
-  //   const newPhoneNumber = prompt('Enter new phone number:', selectedItem.phoneNumber);
-  //   const newEmail = prompt('Enter new email:', selectedItem.email);
-  //   const newHobbies = prompt('Enter new hobbies:', selectedItem.hobbies);
-
-  //   selectedItem.name = newName;
-  //   selectedItem.phoneNumber = newPhoneNumber;
-  //   selectedItem.email = newEmail;
-  //   selectedItem.hobbies = newHobbies;
-
-  //   axios.post(`${hostURL}/update/data/${itemId}`, selectedItem)
-  //     .then(response => setFormData(response.data))
-  //     .catch(error => console.error(error));
-  // }
-
 
   const handleMail = (e) => {
     let ids = selectedCheckboxes;
