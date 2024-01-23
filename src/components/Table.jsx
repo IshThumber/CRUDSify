@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -12,23 +12,32 @@ import {
 } from '@chakra-ui/react'
 
 export function TableSelection({ data, handleDelete, handleUpdate, handleCheckboxChange, handleSelectAllChange, selectAll, selectedCheckboxes, isEditOpen, onEditOpen, onEditClose }) {
-  const [editMode, setEditMode] = useState(false);
   const [editedItem, setEditedItem] = useState({});
 
+  useEffect(() => {
+    setEditedItem({});
+  }, [data]);
+
   const handleEdit = (item) => {
-    setEditMode(true);
     setEditedItem({ ...item });
     onEditOpen();
   };
 
   const handleUpdateFormChange = (e) => {
-    setEditedItem({ ...editedItem, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setEditedItem((prevItem) => ({
+      ...prevItem,
+      [name]: value,
+    }));
   };
 
-  const handleUpdateSubmit = () => {
-    // Call the handleUpdate function from the parent component
-    handleUpdate(editedItem);
-    setEditMode(false);
+  const handleUpdateSubmit = (e) => {
+    e.preventDefault();
+    let body = { name: editedItem.name, phoneNumber: editedItem.phoneNumber, email: editedItem.email, hobbies: editedItem.hobbies }
+    console.log(body);
+    handleUpdate(editedItem._id, body);
+
+    onEditClose();
   };
 
   const UpdateForm = () => {
@@ -41,8 +50,8 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
             pr="4.5rem"
             variant="outline"
             placeholder="Enter Name"
-            value={editedItem.name}
-            onChange={handleUpdateFormChange}
+            defaultValue={editedItem.name}
+            onChange={(e) => handleUpdateFormChange(e)}
           />
           <Input
             name="phoneNumber"
@@ -50,7 +59,7 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
             pr="4.5rem"
             variant="outline"
             placeholder="Enter Phone Number"
-            value={editedItem.phoneNumber}
+            defaultValue={editedItem.phoneNumber}
             onChange={handleUpdateFormChange}
           />
           <Input
@@ -59,7 +68,7 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
             pr="4.5rem"
             variant="outline"
             placeholder="Enter Email"
-            value={editedItem.email}
+            defaultValue={editedItem.email}
             onChange={handleUpdateFormChange}
           />
           <Input
@@ -68,10 +77,9 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
             pr="4.5rem"
             variant="outline"
             placeholder="Enter Hobbies"
-            value={editedItem.hobbies}
+            defaultValue={editedItem.hobbies}
             onChange={handleUpdateFormChange}
           />
-          <Button variant='ghost' className="px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700" onClick={handleUpdateSubmit}>Update</Button>
         </div>
       </>
     )
@@ -93,7 +101,7 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
               <Button colorScheme='blue' mr={3} onClick={onEditClose}>
                 Close
               </Button>
-              <Button variant='ghost' className="px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700" onClick={() => { }}>Submit</Button>
+              <Button variant='ghost' className="px-4 py-2 font-bold text-white bg-green-300 rounded-full hover:bg-green-700" onClick={handleUpdateSubmit}>Update</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
@@ -110,7 +118,7 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
                   checked={selectAll}
                 />
               </th>
-              <th className="px-4 py-2">Name</th>
+              <th className=" px-4 py-2">Name</th>
               <th className="px-4 py-2">Phone Number</th>
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Hobbies</th>
