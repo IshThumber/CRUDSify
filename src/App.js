@@ -201,6 +201,8 @@ const App = () => {
 
   const handleMail = (e) => {
     let ids = selectedCheckboxes;
+    if (ids.length === 0)
+      alert('Please select atleast one checkbox');
     for (let i = 0; i < ids.length; i++) {
       axios.post(`${hostURL}sendmail/${ids[i]}`)
         .then(response => console.log(response))
