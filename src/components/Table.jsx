@@ -79,10 +79,6 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
 
   return (
     <>
-      {/* <div className="bg-green-700 p-3 flex flex-col w-fit rounded-xl">
-        {editMode && <UpdateForm />}
-      </div> */}
-
       <>
         <Modal isOpen={isEditOpen} onClose={onEditClose}>
           <ModalOverlay />
@@ -103,9 +99,7 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
         </Modal>
       </>
 
-
       <div className="w-full p-3 border-2 border-blue-gray-900  rounded-xl text-black">
-
         <table className="w-full">
           <thead>
             <tr>
@@ -138,7 +132,7 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
                   <td className="border px-4 py-2">
                     <input
                       type="checkbox"
-                      onChange={() => handleCheckboxChange(item._id)}
+                      onChange={(e) => handleCheckboxChange(e, item._id)}
                       checked={selectedCheckboxes.includes(item._id)}
                     />
                   </td>
@@ -149,7 +143,7 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
                   <td className="border px-4 py-2">
                     <button
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
-                      onClick={() => handleDelete(item._id)}
+                      onClick={(e) => handleDelete(e, item._id)}
                     >
                       Delete
                     </button>

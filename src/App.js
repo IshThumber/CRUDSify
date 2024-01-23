@@ -145,7 +145,7 @@ const App = () => {
   };
 
   const handleCheckboxChange = (e, id) => {
-    if (e && e.target && e.target.checked) {
+    if (e.target.checked) {
       setSelectedCheckboxes([...selectedCheckboxes, id]);
       console.log('Selected checkbox IDs:', [...selectedCheckboxes, id]);
     } else {
@@ -163,6 +163,7 @@ const App = () => {
       setSelectedCheckboxes([]);
     }
   };
+
 
   const handleUpdate = (itemId) => {
     const selectedItem = data.find(item => item._id === itemId);
