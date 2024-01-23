@@ -6,7 +6,7 @@ import { TableSelection } from './components/Table';
 
 // const hostURL = process.env.REACT_APP_HOST_URL
 // const hostURL = "http://localhost:5000"
-const hostURL = "https://the-it-backend.onrender.com/"
+const hostURL = "https://the-it-backend.onrender.com"
 const App = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
