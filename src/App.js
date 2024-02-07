@@ -4,8 +4,8 @@ import axios from 'axios';
 import NewEntryForm from './components/NewEntryForm';
 import { TableSelection } from './components/Table';
 
-const hostURL = "https://the-it-backend.onrender.com";
-// const hostURL = "http://localhost:5000";
+// const hostURL = "https://the-it-backend.onrender.com";
+const hostURL = "http://localhost:5000";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -166,7 +166,6 @@ const App = () => {
           .then(response => response)
           .catch(error => console.error(error));
 
-
         alert("Mail sent successfully")
       } catch (error) {
         console.error(error);
@@ -174,52 +173,92 @@ const App = () => {
     }
   };
 
+  const handleMultiDelete = async () => {
+    let ids = selectedCheckboxes;
+    if (ids.length === 0) {
+      alert('Please select at least one checkbox');
+      return;
+    }
+    for (let i = 0; i < ids.length; i++) {
+      try {
+        await axios.post(`${hostURL}/api/delete/data/${ids[i]}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response)
+          .catch(error => console.error(error));
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    alert(`${ids.length} deleted successfully!`)
+
+
+    window.location.reload();
+  }
+
+  const heading = data.length === 1 ? `${data.length} entry` : `${data.length} entries`
   return (
-    <div className='bg-white text-black flex flex-col gap-14 w-4/5 m-auto'>
-      <div className='w-full bg-green-50 p-5 font-extrabold text-4xl'>
-        Task for "TheITStudio"
-      </div>
+    <div className='w-full bg-slate-100'>
+      <div className='bg-trasnparent text-black flex flex-col gap-14 w-4/5 m-auto'>
+        <div className='w-full bg-green-50 p-5 font-extrabold text-4xl'>
+          CRUDSify
 
-      <div>
-        <h1 className='text-3xl font-bold'>Form</h1>
-        <NewEntryForm
-          setFormData={setFormData}
-          formData={formData}
-          handleFormSubmit={handleFormSubmit}
-          open={open}
-          setOpen={setOpen}
-          handleFormChange={handleFormChange}
-          formErrors={formErrors}
-          isNewOpen={isNewOpen}
-          onNewOpen={onNewOpen}
-          onNewClose={onNewClose}
-        />
-      </div>
+          <p className='text-xl mt-4'>
+            CRUDSify is a powerful data management application that simplifies CRUD operations (Create, Read, Update, Delete) with an intuitive user interface, seamless integration between frontend and backend, and email features, ensuring efficient and secure data handling.</p>
+        </div>
 
-      <div>
-        <h1 className="text-2xl font-bold">Table Selection</h1>
-        <TableSelection
-          data={data}
-          handleDelete={handleDelete}
-          handleUpdate={handleUpdate}
-          handleCheckboxChange={handleCheckboxChange}
-          handleSelectAllChange={handleSelectAllChange}
-          selectAll={selectAll}
-          selectedCheckboxes={selectedCheckboxes}
-          isEditOpen={isEditOpen}
-          onEditOpen={onEditOpen}
-          onEditClose={onEditClose}
-        />
-      </div>
+        <div>
+          <h1 className='text-3xl font-bold'>Form</h1>
+          <NewEntryForm
+            setFormData={setFormData}
+            formData={formData}
+            handleFormSubmit={handleFormSubmit}
+            open={open}
+            setOpen={setOpen}
+            handleFormChange={handleFormChange}
+            formErrors={formErrors}
+            isNewOpen={isNewOpen}
+            onNewOpen={onNewOpen}
+            onNewClose={onNewClose}
+          />
+        </div>
 
-      <div>
-        <Button
-          variant='ghost'
-          className="px-4 py-2 font-bold text-black bg-green-200 rounded-full hover:bg-green-700"
-          onClick={handleMail}
-        >
-          Send Mail
-        </Button>
+        <div>
+          <h1 className="text-2xl font-bold">Table Selection ({heading})</h1>
+          <TableSelection
+            data={data}
+            handleDelete={handleDelete}
+            handleUpdate={handleUpdate}
+            handleCheckboxChange={handleCheckboxChange}
+            handleSelectAllChange={handleSelectAllChange}
+            selectAll={selectAll}
+            selectedCheckboxes={selectedCheckboxes}
+            isEditOpen={isEditOpen}
+            onEditOpen={onEditOpen}
+            onEditClose={onEditClose}
+          />
+        </div>
+
+        <div className='flex flex-row gap-8 mb-10'>
+          <Button
+            variant='ghost'
+            className="px-4 py-2 font-bold text-black bg-green-200 rounded-full hover:bg-green-700"
+            onClick={handleMail}
+          >
+            Send Mail
+          </Button>
+
+          <Button
+            variant='ghost'
+            className="px-4 py-2 font-bold text-black bg-red-200 rounded-full hover:bg-red-700"
+            onClick={handleMultiDelete}
+          >
+            Delete Selected ({`${selectedCheckboxes.length}`})
+          </Button>
+        </div>
       </div>
     </div>
   );
