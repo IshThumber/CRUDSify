@@ -35,8 +35,8 @@ export function TableSelection({ data, handleDelete, handleUpdate, handleCheckbo
     e.preventDefault();
     let body = { name: editedItem.name, phoneNumber: editedItem.phoneNumber, email: editedItem.email, hobbies: editedItem.hobbies }
     handleUpdate(editedItem._id, body);
-
     onEditClose();
+    window.location.reload();
   };
 
   const UpdateForm = () => {

@@ -32,7 +32,7 @@ const App = () => {
       .then(response => setData(response.data))
       .catch(error => console.error(error));
   }, []);
-  ;
+  
   const validationForm = () => {
     let error = {};
     let flag = true;
@@ -139,8 +139,8 @@ const App = () => {
       setSelectedCheckboxes([]);
     }
   };
-  const handleUpdate = (itemId, updatedData) => {
-    axios.post(`${hostURL}/api/update/data/${itemId}`, updatedData, {
+  const handleUpdate = async (itemId, updatedData) => {
+    await axios.put(`${hostURL}/api/update/data/${itemId}`, updatedData, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -194,8 +194,6 @@ const App = () => {
       }
     }
     alert(`${ids.length} deleted successfully!`)
-
-
     window.location.reload();
   }
 
