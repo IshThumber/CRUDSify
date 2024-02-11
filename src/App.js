@@ -4,8 +4,8 @@ import axios from 'axios';
 import NewEntryForm from './components/NewEntryForm';
 import { TableSelection } from './components/Table';
 
-// const hostURL = "https://the-it-backend.onrender.com";
-const hostURL = "http://localhost:5000";
+const hostURL = "https://the-it-backend.onrender.com";
+// const hostURL = "http://localhost:5000";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -32,7 +32,7 @@ const App = () => {
       .then(response => setData(response.data))
       .catch(error => console.error(error));
   }, []);
-  
+
   const validationForm = () => {
     let error = {};
     let flag = true;
